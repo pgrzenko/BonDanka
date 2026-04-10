@@ -166,7 +166,11 @@ export function Result({
       <div className="flex gap-3 mt-6">
         <button
           onClick={onRestart}
-          className="flex-1 py-2 px-5 rounded-lg text-[14px] text-gray-600 border border-gray-300 hover:bg-gray-50 transition-all cursor-pointer"
+          className={`flex-1 py-2 px-5 rounded-lg text-[14px] border transition-all cursor-pointer ${
+            isCoiWinner
+              ? "text-blue-700 border-blue-200 bg-blue-50 hover:bg-blue-100"
+              : "text-emerald-700 border-emerald-200 bg-emerald-50 hover:bg-emerald-100"
+          }`}
         >
           Zacznij od nowa
         </button>
