@@ -42,7 +42,7 @@ export function StepInflation({
           step={1}
           value={sliderVal}
           onChange={(e) => handleSliderChange(Number(e.target.value))}
-          className="w-full accent-gray-900"
+          className="w-full accent-green-700"
         />
         <div className="text-[13px] text-gray-500 mt-2 leading-relaxed">
           Cel inflacyjny NBP to 2,5%. Nie wiesz? Zostaw domyślną wartość.
@@ -58,7 +58,7 @@ export function StepInflation({
         </button>
         <button
           onClick={onNext}
-          className="flex-1 py-2.5 px-5 rounded-lg text-[15px] bg-gray-900 text-white hover:opacity-85 transition-all cursor-pointer"
+          className="flex-1 py-2.5 px-5 rounded-lg text-[15px] bg-green-700 text-white hover:bg-green-800 shadow-sm transition-all cursor-pointer"
         >
           Dalej →
         </button>

@@ -75,14 +75,14 @@ export function BondChart({
           <Line
             type="monotone"
             dataKey="COI"
-            stroke="#185FA5"
+            stroke="#1E40AF"
             strokeWidth={2}
             dot={{ r: 3 }}
           />
           <Line
             type="monotone"
             dataKey="EDO"
-            stroke="#0F6E56"
+            stroke="#15803D"
             strokeWidth={2}
             strokeDasharray="5 3"
             dot={{ r: 3 }}

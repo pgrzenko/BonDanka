@@ -64,7 +64,7 @@ export function StepAmount({
         </button>
         <button
           onClick={handleNext}
-          className="flex-1 py-2.5 px-5 rounded-lg text-[15px] bg-gray-900 text-white hover:opacity-85 transition-all cursor-pointer"
+          className="flex-1 py-2.5 px-5 rounded-lg text-[15px] bg-green-700 text-white hover:bg-green-800 shadow-sm transition-all cursor-pointer"
         >
           Dalej →
         </button>

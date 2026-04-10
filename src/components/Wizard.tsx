@@ -51,7 +51,7 @@ export function Wizard() {
             <div
               key={i}
               className={`w-2 h-2 rounded-full ${
-                i <= stepIndex ? "bg-gray-900" : "bg-gray-300"
+                i <= stepIndex ? "bg-green-700" : "bg-gray-300"
               }`}
             />
           ))}

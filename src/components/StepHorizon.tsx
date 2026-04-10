@@ -51,8 +51,8 @@ export function StepHorizon({ value, onChange, onNext }: StepHorizonProps) {
       onClick={() => applyPreset(preset)}
       className={`flex-1 py-2.5 px-2 rounded-lg border text-[14px] font-medium text-center transition-all cursor-pointer ${
         activePreset === preset
-          ? "border-gray-900 bg-gray-900 text-white"
-          : "border-gray-300 bg-white text-gray-700 hover:border-gray-500"
+          ? "border-green-700 bg-green-700 text-white shadow-sm"
+          : "border-gray-300 bg-white text-gray-700 hover:border-green-400"
       }`}
     >
       {label}
@@ -63,7 +63,7 @@ export function StepHorizon({ value, onChange, onNext }: StepHorizonProps) {
     <div>
       {/* Hero header */}
       <div className="mb-6">
-        <h1 className="text-[26px] font-semibold text-gray-900 leading-tight">
+        <h1 className="text-[26px] font-semibold text-blue-800 leading-tight">
           Witaj w BonDance!
         </h1>
         <p className="text-[15px] text-gray-500 mt-1.5 leading-relaxed">
@@ -97,7 +97,7 @@ export function StepHorizon({ value, onChange, onNext }: StepHorizonProps) {
             onFocus={() => setEditingText(String(value))}
             onBlur={handleInputBlur}
             onKeyDown={handleInputKeyDown}
-            className="w-16 text-4xl font-medium text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-gray-900 outline-none text-center transition-colors"
+            className="w-16 text-4xl font-medium text-gray-800 bg-transparent border-b-2 border-gray-300 focus:border-green-700 outline-none text-center transition-colors"
             aria-label="Liczba lat"
           />
           <span className="text-lg font-normal text-gray-500">
@@ -113,7 +113,7 @@ export function StepHorizon({ value, onChange, onNext }: StepHorizonProps) {
             step={1}
             value={value}
             onChange={(e) => onChange(Number(e.target.value))}
-            className="w-full accent-gray-900"
+            className="w-full accent-green-700"
           />
           <span className="text-[13px] text-gray-400 whitespace-nowrap">15 lat</span>
         </div>
@@ -127,7 +127,7 @@ export function StepHorizon({ value, onChange, onNext }: StepHorizonProps) {
       <div className="flex gap-3 mt-8">
         <button
           onClick={onNext}
-          className="flex-1 py-2.5 px-5 rounded-lg text-[15px] bg-gray-900 text-white hover:opacity-85 transition-all cursor-pointer"
+          className="flex-1 py-2.5 px-5 rounded-lg text-[15px] bg-green-700 text-white hover:bg-green-800 shadow-sm transition-all cursor-pointer"
         >
           Dalej →
         </button>
