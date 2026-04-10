@@ -46,23 +46,16 @@ export function StepHorizon({ value, onChange, onNext }: StepHorizonProps) {
     }
   }
 
-  const presetBtn = (preset: Preset, label: string, sublabel: string) => (
+  const presetBtn = (preset: Preset, label: string) => (
     <button
       onClick={() => applyPreset(preset)}
-      className={`flex-1 py-3 px-2 rounded-lg border text-center transition-all cursor-pointer ${
+      className={`flex-1 py-2.5 px-2 rounded-lg border text-[14px] font-medium text-center transition-all cursor-pointer ${
         activePreset === preset
           ? "border-gray-900 bg-gray-900 text-white"
           : "border-gray-300 bg-white text-gray-700 hover:border-gray-500"
       }`}
     >
-      <div className="text-[14px] font-medium">{label}</div>
-      <div
-        className={`text-[12px] mt-0.5 ${
-          activePreset === preset ? "text-gray-300" : "text-gray-400"
-        }`}
-      >
-        {sublabel}
-      </div>
+      {label}
     </button>
   );
 
@@ -71,11 +64,11 @@ export function StepHorizon({ value, onChange, onNext }: StepHorizonProps) {
       {/* Hero header */}
       <div className="mb-6">
         <h1 className="text-[26px] font-semibold text-gray-900 leading-tight">
-          BonDanka
+          Witaj w BonDance!
         </h1>
         <p className="text-[15px] text-gray-500 mt-1.5 leading-relaxed">
-          Sprawdź, które obligacje lepiej ochronią Twoje pieniądze przed
-          inflacją — 4-letnie COI czy 10-letnie EDO.
+          Pomogę Ci w prosty sposób porównać obligacje 4-letnie (COI)
+          i 10-letnie (EDO).
         </p>
       </div>
 
@@ -88,9 +81,9 @@ export function StepHorizon({ value, onChange, onNext }: StepHorizonProps) {
 
       {/* Presets */}
       <div className="flex gap-2.5 mb-6">
-        {presetBtn("short", "Do 5 lat", "krótki termin")}
-        {presetBtn("medium", "6–10 lat", "średni termin")}
-        {presetBtn("long", "Ponad 10 lat", "długi termin")}
+        {presetBtn("short", "Do 5 lat")}
+        {presetBtn("medium", "6–10 lat")}
+        {presetBtn("long", "Powyżej 10 lat")}
       </div>
 
       {/* Editable value + slider */}
@@ -127,9 +120,8 @@ export function StepHorizon({ value, onChange, onNext }: StepHorizonProps) {
       </div>
 
       {/* Helper text */}
-      <div className="text-[13px] text-gray-500 mt-4 leading-relaxed bg-gray-50 rounded-lg p-3">
-        💡 Im dłuższy okres inwestycji, tym większa różnica między obligacjami
-        COI a EDO. Sprawdź, co lepiej pasuje do Twoich planów.
+      <div className="text-[13px] text-gray-400 mt-3">
+        Im dłuższy okres, tym większa różnica między COI a EDO.
       </div>
 
       <div className="flex gap-3 mt-8">
