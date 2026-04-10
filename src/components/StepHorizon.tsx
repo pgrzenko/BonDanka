@@ -14,7 +14,7 @@ export function StepHorizon({ value, onChange, onNext }: StepHorizonProps) {
   return (
     <div>
       <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-        Krok 1 z 3
+        Krok 1 z 4
       </div>
       <h2 className="text-[22px] font-medium mb-6 leading-snug">
         Za ile lat będziesz potrzebować tych pieniędzy?

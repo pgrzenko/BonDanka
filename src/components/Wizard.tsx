@@ -4,6 +4,7 @@ import { calcBonds } from "../lib/bondCalculator.ts";
 import { StepHorizon } from "./StepHorizon.tsx";
 import { StepAmount } from "./StepAmount.tsx";
 import { StepInflation } from "./StepInflation.tsx";
+import { StepSavings } from "./StepSavings.tsx";
 import { Result } from "./Result.tsx";
 
 const INITIAL_STATE: WizardState = {
@@ -11,6 +12,7 @@ const INITIAL_STATE: WizardState = {
   horizonYears: 5,
   amount: 100000,
   inflationRate: 0.035,
+  savingsRate: 0.035,
 };
 
 export function Wizard() {
@@ -18,7 +20,7 @@ export function Wizard() {
   const [result, setResult] = useState<ComparisonResult | null>(null);
 
   const currentStep = state.step;
-  const stepIndex = currentStep === "result" ? 3 : currentStep;
+  const stepIndex = currentStep === "result" ? 4 : currentStep;
 
   function goTo(step: WizardState["step"]) {
     setState((s) => ({ ...s, step }));
@@ -29,6 +31,7 @@ export function Wizard() {
       amount: state.amount,
       horizonYears: state.horizonYears,
       inflationRate: state.inflationRate,
+      savingsRate: state.savingsRate,
     });
     setResult(res);
     goTo("result");
@@ -40,18 +43,20 @@ export function Wizard() {
   }
 
   return (
-    <div className="max-w-[560px] mx-auto px-4 py-6">
+    <div className="max-w-[640px] mx-auto px-4 py-6">
       {/* Progress dots */}
-      <div className="flex gap-1.5 mb-6">
-        {[1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className={`w-2 h-2 rounded-full ${
-              i <= stepIndex ? "bg-gray-900" : "bg-gray-300"
-            }`}
-          />
-        ))}
-      </div>
+      {currentStep !== "result" && (
+        <div className="flex gap-1.5 mb-6">
+          {[1, 2, 3, 4].map((i) => (
+            <div
+              key={i}
+              className={`w-2 h-2 rounded-full ${
+                i <= stepIndex ? "bg-gray-900" : "bg-gray-300"
+              }`}
+            />
+          ))}
+        </div>
+      )}
 
       {currentStep === 1 && (
         <StepHorizon
@@ -75,6 +80,15 @@ export function Wizard() {
           value={state.inflationRate}
           onChange={(v) => setState((s) => ({ ...s, inflationRate: v }))}
           onBack={() => goTo(2)}
+          onNext={() => goTo(4)}
+        />
+      )}
+
+      {currentStep === 4 && (
+        <StepSavings
+          value={state.savingsRate}
+          onChange={(v) => setState((s) => ({ ...s, savingsRate: v }))}
+          onBack={() => goTo(3)}
           onCalc={handleCalc}
         />
       )}

@@ -1,4 +1,5 @@
 import type { ComparisonResult } from "../lib/bondTypes.ts";
+import { BOND_CONSTANTS } from "../lib/bondConstants.ts";
 import { BondChart } from "./BondChart.tsx";
 
 interface ResultProps {
@@ -12,6 +13,11 @@ function fmt(value: number): string {
   return value.toLocaleString("pl-PL", { maximumFractionDigits: 0 });
 }
 
+function pluralLat(n: number): string {
+  if (n === 1) return "rokiem";
+  return "latami";
+}
+
 export function Result({
   result,
   amount,
@@ -21,21 +27,14 @@ export function Result({
   const { coi, edo, winner, reason } = result;
   const isCoiWinner = winner === "COI";
 
-  const earlyParts: string[] = [];
-  if (coi.earlyFee)
-    earlyParts.push(
-      `COI — wykup przed 4 latami kosztuje ${fmt((amount / 100) * 2)} zł`
-    );
-  if (edo.earlyFee)
-    earlyParts.push(
-      `EDO — wykup przed 10 latami kosztuje ${fmt((amount / 100) * 3)} zł`
-    );
+  const coiFee = (amount / 100) * BOND_CONSTANTS.COI.earlyRedemptionFee;
+  const edoFee = (amount / 100) * BOND_CONSTANTS.EDO.earlyRedemptionFee;
 
   return (
     <div>
-      {/* Recommendation box */}
+      {/* Recommendation box — full width */}
       <div
-        className={`rounded-xl p-5 mb-4 border ${
+        className={`rounded-xl p-5 mb-5 border ${
           isCoiWinner
             ? "bg-blue-50 border-blue-200"
             : "bg-emerald-50 border-emerald-200"
@@ -45,51 +44,117 @@ export function Result({
           Rekomendacja
         </div>
         <div className="text-[22px] font-medium mb-2">
-          🏆 {winner} —{" "}
-          {winner === "COI" ? "obligacje 4-letnie" : "obligacje 10-letnie"}
+          Dla {horizonYears} {horizonYears === 1 ? "roku" : "lat"}: wybierz{" "}
+          {winner}
         </div>
-        <div className="text-sm leading-relaxed text-gray-500">{reason}</div>
+        <div className="text-sm leading-relaxed text-gray-600">{reason}</div>
       </div>
 
-      {/* Chart */}
+      {/* Side-by-side comparison cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+        {/* COI card */}
+        <div
+          className={`rounded-xl p-5 border-2 transition-all ${
+            isCoiWinner
+              ? "bg-blue-50 border-blue-300"
+              : "bg-gray-50 border-gray-200 opacity-75"
+          }`}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-medium text-gray-700">
+              COI (4-letnie)
+            </div>
+            {isCoiWinner && <span className="text-lg">🏆</span>}
+          </div>
+
+          <div className="text-[13px] text-gray-500 mb-0.5">Wpłacasz:</div>
+          <div className="text-base font-medium mb-3">{fmt(amount)} zł</div>
+
+          <div className="text-[13px] text-gray-500 mb-0.5">Otrzymasz:</div>
+          <div className="text-xl font-semibold mb-1">
+            {fmt(coi.finalNetto)} zł
+          </div>
+
+          <div className="text-[13px] text-gray-500 mb-4">
+            Zysk netto:{" "}
+            <span className="text-green-700 font-medium">
+              +{fmt(coi.profit)} zł
+            </span>
+          </div>
+
+          {/* Growth bar */}
+          <div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
+            <div
+              className={`h-full rounded-full ${
+                isCoiWinner ? "bg-blue-500" : "bg-gray-400"
+              }`}
+              style={{
+                width: `${Math.min((coi.profit / amount) * 100 * 3, 100)}%`,
+              }}
+            />
+          </div>
+
+          <div className="text-[12px] text-amber-700 bg-amber-50 rounded-lg p-2.5 leading-relaxed">
+            ⚠️ Wykup przed {BOND_CONSTANTS.COI.termYears}{" "}
+            {pluralLat(BOND_CONSTANTS.COI.termYears)}: opłata {fmt(coiFee)} zł
+          </div>
+        </div>
+
+        {/* EDO card */}
+        <div
+          className={`rounded-xl p-5 border-2 transition-all ${
+            !isCoiWinner
+              ? "bg-emerald-50 border-emerald-300"
+              : "bg-gray-50 border-gray-200 opacity-75"
+          }`}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-medium text-gray-700">
+              EDO (10-letnie)
+            </div>
+            {!isCoiWinner && <span className="text-lg">🏆</span>}
+          </div>
+
+          <div className="text-[13px] text-gray-500 mb-0.5">Wpłacasz:</div>
+          <div className="text-base font-medium mb-3">{fmt(amount)} zł</div>
+
+          <div className="text-[13px] text-gray-500 mb-0.5">Otrzymasz:</div>
+          <div className="text-xl font-semibold mb-1">
+            {fmt(edo.finalNetto)} zł
+          </div>
+
+          <div className="text-[13px] text-gray-500 mb-4">
+            Zysk netto:{" "}
+            <span className="text-green-700 font-medium">
+              +{fmt(edo.profit)} zł
+            </span>
+          </div>
+
+          {/* Growth bar */}
+          <div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
+            <div
+              className={`h-full rounded-full ${
+                !isCoiWinner ? "bg-emerald-500" : "bg-gray-400"
+              }`}
+              style={{
+                width: `${Math.min((edo.profit / amount) * 100 * 3, 100)}%`,
+              }}
+            />
+          </div>
+
+          <div className="text-[12px] text-amber-700 bg-amber-50 rounded-lg p-2.5 leading-relaxed">
+            ⚠️ Wykup przed {BOND_CONSTANTS.EDO.termYears}{" "}
+            {pluralLat(BOND_CONSTANTS.EDO.termYears)}: opłata {fmt(edoFee)} zł
+          </div>
+        </div>
+      </div>
+
+      {/* Full-width comparison chart */}
       <BondChart
-        coiYearly={coi.yearly.slice(0, horizonYears)}
-        edoYearly={edo.yearly.slice(0, horizonYears)}
+        coiYearly={coi.yearly}
+        edoYearly={edo.yearly}
         horizonYears={horizonYears}
       />
-
-      {/* Comparison cards */}
-      <div className="grid grid-cols-2 gap-3 my-4">
-        <div
-          className={`bg-gray-50 rounded-lg p-4 ${
-            isCoiWinner ? "border-2 border-blue-400" : ""
-          }`}
-        >
-          <div className="text-xs text-gray-500 mb-1">COI (4-letnie)</div>
-          <div className="text-lg font-medium">{fmt(coi.finalNetto)} zł</div>
-          <div className="text-[13px] text-gray-500 mt-0.5">
-            zysk netto: +{fmt(coi.profit)} zł
-          </div>
-        </div>
-        <div
-          className={`bg-gray-50 rounded-lg p-4 ${
-            !isCoiWinner ? "border-2 border-blue-400" : ""
-          }`}
-        >
-          <div className="text-xs text-gray-500 mb-1">EDO (10-letnie)</div>
-          <div className="text-lg font-medium">{fmt(edo.finalNetto)} zł</div>
-          <div className="text-[13px] text-gray-500 mt-0.5">
-            zysk netto: +{fmt(edo.profit)} zł
-          </div>
-        </div>
-      </div>
-
-      {/* Early redemption warning */}
-      {earlyParts.length > 0 && (
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4 text-[13px] text-amber-700 leading-relaxed">
-          ⚠️ Przy wcześniejszym wykupie: {earlyParts.join("; ")}.
-        </div>
-      )}
 
       {/* Restart button */}
       <div className="flex gap-3 mt-6">

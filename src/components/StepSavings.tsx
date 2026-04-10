@@ -1,20 +1,19 @@
-interface StepInflationProps {
+interface StepSavingsProps {
   value: number;
   onChange: (v: number) => void;
   onBack: () => void;
-  onNext: () => void;
+  onCalc: () => void;
 }
 
-export function StepInflation({
+export function StepSavings({
   value,
   onChange,
   onBack,
-  onNext,
-}: StepInflationProps) {
-  // Display as percentage with 1 decimal
+  onCalc,
+}: StepSavingsProps) {
   const displayVal = (value * 100).toFixed(1).replace(".", ",");
 
-  // Slider works in 0.1% increments: 1.0% to 15.0% → internal values 10..150
+  // Slider works in 0.1% increments: 0.0% to 10.0% → internal values 0..100
   const sliderVal = Math.round(value * 1000);
 
   function handleSliderChange(raw: number) {
@@ -24,10 +23,10 @@ export function StepInflation({
   return (
     <div>
       <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-        Krok 3 z 4
+        Krok 4 z 4
       </div>
       <h2 className="text-[22px] font-medium mb-6 leading-snug">
-        Jakiej inflacji się spodziewasz?
+        Jakie masz oprocentowanie konta oszczędnościowego?
       </h2>
 
       <div className="my-6">
@@ -37,15 +36,16 @@ export function StepInflation({
         </div>
         <input
           type="range"
-          min={10}
-          max={150}
+          min={0}
+          max={100}
           step={1}
           value={sliderVal}
           onChange={(e) => handleSliderChange(Number(e.target.value))}
           className="w-full accent-gray-900"
         />
         <div className="text-[13px] text-gray-500 mt-2 leading-relaxed">
-          Cel inflacyjny NBP to 2,5%. Nie wiesz? Zostaw 3,5%.
+          Tu trafiają wypłacone odsetki z obligacji COI. Wpisz oprocentowanie
+          swojego konta oszczędnościowego.
         </div>
       </div>
 
@@ -57,10 +57,10 @@ export function StepInflation({
           ← Wróć
         </button>
         <button
-          onClick={onNext}
+          onClick={onCalc}
           className="flex-1 py-2.5 px-5 rounded-lg text-[15px] bg-gray-900 text-white hover:opacity-85 transition-all cursor-pointer"
         >
-          Dalej →
+          Oblicz →
         </button>
       </div>
     </div>

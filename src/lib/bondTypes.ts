@@ -9,6 +9,8 @@ export interface CalcInput {
   horizonYears: number;
   /** Oczekiwana roczna stopa inflacji (np. 0.035 = 3,5%) */
   inflationRate: number;
+  /** Oprocentowanie konta oszczędnościowego (np. 0.035 = 3,5%) */
+  savingsRate: number;
 }
 
 /** Wynik roczny dla jednego typu obligacji */
@@ -41,8 +43,9 @@ export interface ComparisonResult {
 
 /** Stan wizarda */
 export interface WizardState {
-  step: 1 | 2 | 3 | "result";
+  step: 1 | 2 | 3 | 4 | "result";
   horizonYears: number;
   amount: number;
   inflationRate: number;
+  savingsRate: number;
 }
