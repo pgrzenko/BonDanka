@@ -43,9 +43,10 @@ export function StepSavings({
           onChange={(e) => handleSliderChange(Number(e.target.value))}
           className="w-full accent-green-700"
         />
-        <div className="text-[13px] text-gray-500 mt-2 leading-relaxed">
-          Tu trafiają wypłacone odsetki z obligacji COI. Wpisz oprocentowanie
-          swojego konta oszczędnościowego.
+        <div className="text-[13px] text-gray-600 mt-2 leading-relaxed">
+          To oprocentowanie Twojego konta oszczędnościowego, na&nbsp;które
+          co&nbsp;roku trafiają odsetki z&nbsp;obligacji COI (jeśli je
+          wypłacisz). Dzięki temu porównujemy realny zysk.
         </div>
       </div>
 

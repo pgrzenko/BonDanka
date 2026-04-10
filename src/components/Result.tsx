@@ -67,19 +67,22 @@ export function Result({
             {isCoiWinner && <span className="text-lg">🏆</span>}
           </div>
 
-          <div className="text-[13px] text-gray-500 mb-0.5">Wpłacasz:</div>
+          <div className="text-[13px] text-gray-600 mb-0.5">Wpłacasz:</div>
           <div className="text-base font-medium mb-3">{fmt(amount)} zł</div>
 
-          <div className="text-[13px] text-gray-500 mb-0.5">Otrzymasz:</div>
+          <div className="text-[13px] text-gray-600 mb-0.5">Otrzymasz:</div>
           <div className="text-xl font-semibold mb-1">
             {fmt(coi.finalNetto)} zł
           </div>
 
-          <div className="text-[13px] text-gray-500 mb-4">
+          <div className="text-[13px] text-gray-600 mb-1">
             Zysk netto:{" "}
             <span className="text-green-700 font-medium">
               +{fmt(coi.profit)} zł
             </span>
+          </div>
+          <div className="text-[11px] text-gray-500 mb-4">
+            (po odliczeniu 19% podatku Belki)
           </div>
 
           {/* Growth bar */}
@@ -94,7 +97,7 @@ export function Result({
             />
           </div>
 
-          <div className="text-[12px] text-amber-700 bg-amber-50 rounded-lg p-2.5 leading-relaxed">
+          <div className="text-[12px] text-amber-800 bg-amber-50 rounded-lg p-2.5 leading-relaxed">
             ⚠️ Wykup przed {BOND_CONSTANTS.COI.termYears}{" "}
             {pluralLat(BOND_CONSTANTS.COI.termYears)}: opłata {fmt(coiFee)} zł
           </div>
@@ -115,19 +118,22 @@ export function Result({
             {!isCoiWinner && <span className="text-lg">🏆</span>}
           </div>
 
-          <div className="text-[13px] text-gray-500 mb-0.5">Wpłacasz:</div>
+          <div className="text-[13px] text-gray-600 mb-0.5">Wpłacasz:</div>
           <div className="text-base font-medium mb-3">{fmt(amount)} zł</div>
 
-          <div className="text-[13px] text-gray-500 mb-0.5">Otrzymasz:</div>
+          <div className="text-[13px] text-gray-600 mb-0.5">Otrzymasz:</div>
           <div className="text-xl font-semibold mb-1">
             {fmt(edo.finalNetto)} zł
           </div>
 
-          <div className="text-[13px] text-gray-500 mb-4">
+          <div className="text-[13px] text-gray-600 mb-1">
             Zysk netto:{" "}
             <span className="text-green-700 font-medium">
               +{fmt(edo.profit)} zł
             </span>
+          </div>
+          <div className="text-[11px] text-gray-500 mb-4">
+            (po odliczeniu 19% podatku Belki)
           </div>
 
           {/* Growth bar */}
@@ -142,7 +148,7 @@ export function Result({
             />
           </div>
 
-          <div className="text-[12px] text-amber-700 bg-amber-50 rounded-lg p-2.5 leading-relaxed">
+          <div className="text-[12px] text-amber-800 bg-amber-50 rounded-lg p-2.5 leading-relaxed">
             ⚠️ Wykup przed {BOND_CONSTANTS.EDO.termYears}{" "}
             {pluralLat(BOND_CONSTANTS.EDO.termYears)}: opłata {fmt(edoFee)} zł
           </div>
@@ -160,7 +166,7 @@ export function Result({
       <div className="flex gap-3 mt-6">
         <button
           onClick={onRestart}
-          className="flex-1 py-2.5 px-5 rounded-lg text-[15px] bg-green-700 text-white hover:bg-green-800 shadow-sm transition-all cursor-pointer"
+          className="flex-1 py-2 px-5 rounded-lg text-[14px] text-gray-600 border border-gray-300 hover:bg-gray-50 transition-all cursor-pointer"
         >
           Zacznij od nowa
         </button>

@@ -16,8 +16,15 @@ export function StepAmount({
   const [error, setError] = useState(false);
 
   function handleNext() {
-    if (value < 100 || value % 100 !== 0) {
+    if (value < 100) {
       setError(true);
+      return;
+    }
+    if (value % 100 !== 0) {
+      const rounded = Math.ceil(value / 100) * 100;
+      onChange(rounded);
+      setError(false);
+      onNext();
       return;
     }
     setError(false);
@@ -44,14 +51,15 @@ export function StepAmount({
             setError(false);
           }}
           placeholder="np. 100000"
-          className={`text-2xl font-medium w-full py-2 border-b-2 bg-transparent text-gray-900 outline-none ${
+          className={`text-2xl font-medium w-full py-2 border-b-2 bg-transparent text-gray-800 outline-none ${
             error
               ? "border-red-500"
-              : "border-gray-300 focus:border-blue-500"
+              : "border-gray-300 focus:border-green-700"
           }`}
         />
-        <div className="text-[13px] text-gray-500 mt-3 leading-relaxed">
-          Minimalna kwota to 100 zł (1 obligacja). Podaj wielokrotność 100.
+        <div className="text-[13px] text-gray-600 mt-3 leading-relaxed">
+          Minimalna kwota to 100 zł (1 obligacja). Kwota zostanie
+          zaokrąglona do najbliższej wielokrotności 100&nbsp;zł.
         </div>
       </div>
 

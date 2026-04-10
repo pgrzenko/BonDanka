@@ -44,7 +44,7 @@ export function StepInflation({
           onChange={(e) => handleSliderChange(Number(e.target.value))}
           className="w-full accent-green-700"
         />
-        <div className="text-[13px] text-gray-500 mt-2 leading-relaxed">
+        <div className="text-[13px] text-gray-600 mt-2 leading-relaxed">
           Cel inflacyjny NBP to 2,5%. Nie wiesz? Zostaw domyślną wartość.
         </div>
       </div>

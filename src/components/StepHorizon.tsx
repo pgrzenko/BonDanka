@@ -120,8 +120,12 @@ export function StepHorizon({ value, onChange, onNext }: StepHorizonProps) {
       </div>
 
       {/* Helper text */}
-      <div className="text-[13px] text-gray-400 mt-3">
-        Im dłuższy okres, tym większa różnica między COI a EDO.
+      <div className="text-[13px] text-gray-500 mt-3">
+        {value <= 5
+          ? "Przy krótkim okresie różnica między COI a EDO jest niewielka."
+          : value <= 10
+            ? "Im dłuższy okres, tym większa różnica między COI a EDO."
+            : "Przy długim okresie EDO zwykle wypada wyraźnie lepiej dzięki wyższej marży."}
       </div>
 
       <div className="flex gap-3 mt-8">
