@@ -45,7 +45,7 @@ export function StepInflation({
           className="w-full accent-gray-900"
         />
         <div className="text-[13px] text-gray-500 mt-2 leading-relaxed">
-          Cel inflacyjny NBP to 2,5%. Nie wiesz? Zostaw 3,5%.
+          Cel inflacyjny NBP to 2,5%. Nie wiesz? Zostaw domyślną wartość.
         </div>
       </div>
 

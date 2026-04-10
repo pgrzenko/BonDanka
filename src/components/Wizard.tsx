@@ -11,8 +11,8 @@ const INITIAL_STATE: WizardState = {
   step: 1,
   horizonYears: 5,
   amount: 100000,
-  inflationRate: 0.035,
-  savingsRate: 0.035,
+  inflationRate: 0.025,
+  savingsRate: 0.025,
 };
 
 export function Wizard() {

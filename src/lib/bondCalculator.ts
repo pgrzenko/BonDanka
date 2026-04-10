@@ -44,7 +44,10 @@ export function calcCOI(input: CalcInput): BondResult {
 
   for (let y = 1; y <= maxYear; y++) {
     const seriesYear = ((y - 1) % termYears) + 1;
-    const rate = seriesYear === 1 ? year1Rate : inflationRate + inflationMargin;
+    const rate =
+      seriesYear === 1
+        ? year1Rate
+        : Math.max(0, inflationRate) + inflationMargin;
     const interestBrutto = amount * rate;
     const interestNetto = interestBrutto * (1 - TAX_RATE);
 
@@ -58,7 +61,10 @@ export function calcCOI(input: CalcInput): BondResult {
       netValue = amount + savings + interestNetto;
     } else {
       // Early redemption — accrued interest stays with bond, fee applies
-      const bondValue = amount + interestBrutto - fee;
+      // First period: fee capped at accrued interest (nominal protection)
+      const effectiveFee =
+        seriesYear === 1 ? Math.min(fee, interestBrutto) : fee;
+      const bondValue = amount + interestBrutto - effectiveFee;
       const gain = Math.max(bondValue - amount, 0);
       const tax = gain * TAX_RATE;
       netValue = bondValue - tax + savings;
@@ -115,7 +121,7 @@ export function calcEDO(input: CalcInput): BondResult {
     if (seriesYear === 1) {
       capital *= 1 + year1Rate;
     } else {
-      capital *= 1 + inflationRate + inflationMargin;
+      capital *= 1 + Math.max(0, inflationRate) + inflationMargin;
     }
 
     const currentBondsCount = investedBase / 100;
@@ -124,8 +130,10 @@ export function calcEDO(input: CalcInput): BondResult {
     // Compute hypothetical net value if cashed out this year
     let netValue: number;
     if (seriesYear < termYears) {
-      // Early redemption — fee applies
-      const valueAfterFee = capital - fee;
+      // Early redemption — fee capped at accrued interest (nominal protection)
+      const accruedInterest = Math.max(capital - investedBase, 0);
+      const effectiveFee = Math.min(fee, accruedInterest);
+      const valueAfterFee = capital - effectiveFee;
       const gain = Math.max(valueAfterFee - investedBase, 0);
       const tax = gain * TAX_RATE;
       netValue = valueAfterFee - tax;
@@ -198,16 +206,17 @@ export function calcBonds(input: CalcInput): ComparisonResult {
 
 /*
  * ===== TEST ASSERTIONS (verify manually) =====
+ * (savingsRate: 0.035 assumed for all)
  *
- * calcBonds({ amount: 100000, horizonYears: 3,  inflationRate: 0.035 })
- *   → winner: "COI"
+ * calcBonds({ amount: 100000, horizonYears: 1,  inflationRate: 0.035, savingsRate: 0.035 })
+ *   → winner: "COI"  (COI 102228 vs EDO 101904)
  *
- * calcBonds({ amount: 100000, horizonYears: 6,  inflationRate: 0.035 })
- *   → winner: "EDO"
+ * calcBonds({ amount: 100000, horizonYears: 3,  inflationRate: 0.035, savingsRate: 0.035 })
+ *   → winner: "EDO"  (EDO 111548 vs COI 110664)
  *
- * calcBonds({ amount: 100000, horizonYears: 4,  inflationRate: 0.035 })
- *   → winner: "COI", coi.earlyFee === false
+ * calcBonds({ amount: 100000, horizonYears: 4,  inflationRate: 0.035, savingsRate: 0.035 })
+ *   → winner: "EDO", coi.earlyFee === false, edo.earlyFee === true
  *
- * calcBonds({ amount: 100000, horizonYears: 10, inflationRate: 0.035 })
- *   → winner: "EDO", edo.earlyFee === false
+ * calcBonds({ amount: 100000, horizonYears: 10, inflationRate: 0.035, savingsRate: 0.035 })
+ *   → winner: "EDO", edo.earlyFee === false  (EDO 157163 vs COI 143756)
  */
